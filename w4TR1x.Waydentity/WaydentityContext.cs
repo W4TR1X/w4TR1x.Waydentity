@@ -1,6 +1,4 @@
-﻿using w4TR1x.Waydentity.Configurations;
-
-namespace w4TR1x.Waydentity;
+﻿namespace w4TR1x.Waydentity;
 
 public abstract class WaydentityContext<TUserId, TTenantId, TRoleId,TClaimId> : DbContext
     where TUserId : struct, IComparable, IComparable<TUserId>, IConvertible, IEquatable<TUserId>
@@ -23,7 +21,7 @@ public abstract class WaydentityContext<TUserId, TTenantId, TRoleId,TClaimId> : 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        
+
         modelBuilder.ApplyConfigurationsFromAssembly(
             typeof(WaydentityContext<TUserId, TTenantId, TRoleId, TClaimId>).Assembly);
     }
