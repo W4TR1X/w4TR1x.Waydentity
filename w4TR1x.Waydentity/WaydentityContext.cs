@@ -1,20 +1,27 @@
 ﻿namespace w4TR1x.Waydentity;
 
-public abstract class WaydentityContext<TUserId, TTenantId, TRoleId,TClaimId> : DbContext
-    where TUserId : struct, IComparable, IComparable<TUserId>, IConvertible, IEquatable<TUserId>
-    where TTenantId : struct, IComparable, IComparable<TTenantId>, IConvertible, IEquatable<TTenantId>
-    where TRoleId : struct, IComparable, IComparable<TRoleId>, IConvertible, IEquatable<TRoleId>
-     where TClaimId : struct, IComparable, IComparable<TClaimId>, IConvertible, IEquatable<TClaimId>
+
+
+
+public abstract class WaydentityContext<TUser, TTenant, TRole, TClaim, TUserId, TTenantId, TRoleId, TClaimId> : DbContext
+      where TUser : User<TUser, TTenant, TRole, TClaim, TUserId, TTenantId, TRoleId, TClaimId>, new()
+    where TTenant : Tenant<TUser, TTenant, TRole, TClaim, TUserId, TTenantId, TRoleId, TClaimId>, new()
+    where TRole : Role<TUser, TTenant, TRole, TClaim, TUserId, TTenantId, TRoleId, TClaimId>, new()
+    where TClaim : Claim<TUser, TTenant, TRole, TClaim, TUserId, TTenantId, TRoleId, TClaimId>, new()
+    where TUserId : struct, IComparable, IComparable<TUserId>, IEquatable<TUserId>
+    where TTenantId : struct, IComparable, IComparable<TTenantId>, IEquatable<TTenantId>
+    where TRoleId : struct, IComparable, IComparable<TRoleId>, IEquatable<TRoleId>
+     where TClaimId : struct, IComparable, IComparable<TClaimId>, IEquatable<TClaimId>
 {
     public TTenantId CurrentTenantId { get; set; }
 
-    public DbSet<User<TUserId, TTenantId, TRoleId, TClaimId>> Users { get; set; } = null!;
-    public DbSet<Tenant<TUserId, TTenantId, TRoleId, TClaimId>> Tenants { get; set; } = null!;
-    public DbSet<Role<TUserId, TTenantId, TRoleId, TClaimId>> Roles { get; set; } = null!;
-    public DbSet<Claim<TUserId, TTenantId, TRoleId, TClaimId>> Claims { get; set; } = null!;
-    public DbSet<RoleClaim<TUserId,TTenantId,TRoleId,TClaimId>> RoleClaims { get; set; } = null!;
-    public DbSet<UserClaim<TUserId,TTenantId, TRoleId, TClaimId>> UserClaims { get; set; } = null!;
-    public DbSet<UserRole<TUserId, TTenantId, TRoleId, TClaimId>> UserRoles { get; set; } = null!;
+    public DbSet<TUser> Users { get; set; } = null!;
+    public DbSet<TTenant> Tenants { get; set; } = null!;
+    public DbSet<TRole> Roles { get; set; } = null!;
+    public DbSet<TClaim> Claims { get; set; } = null!;
+    public DbSet<RoleClaim<TUser, TTenant, TRole, TClaim, TUserId, TTenantId, TRoleId, TClaimId>> RoleClaims { get; set; } = null!;
+    public DbSet<UserClaim<TUser, TTenant, TRole, TClaim, TUserId, TTenantId, TRoleId, TClaimId>> UserClaims { get; set; } = null!;
+    public DbSet<UserRole<TUser, TTenant, TRole, TClaim, TUserId, TTenantId, TRoleId, TClaimId>> UserRoles { get; set; } = null!;
 
     protected WaydentityContext(DbContextOptions options) : base(options) { }
 
@@ -23,6 +30,6 @@ public abstract class WaydentityContext<TUserId, TTenantId, TRoleId,TClaimId> : 
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.ApplyConfigurationsFromAssembly(
-            typeof(WaydentityContext<TUserId, TTenantId, TRoleId, TClaimId>).Assembly);
+            typeof(WaydentityContext<TUser, TTenant, TRole, TClaim, TUserId, TTenantId, TRoleId, TClaimId>).Assembly);
     }
 }
