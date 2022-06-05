@@ -5,7 +5,7 @@ public abstract class BaseEntity : IBaseEntity
 }
 
 public abstract class BaseIDEntity<TUserId> : IBaseEntity<TUserId>
-    where TUserId : struct, IComparable, IComparable<TUserId>, IConvertible, IEquatable<TUserId>
+    where TUserId : struct, IComparable, IComparable<TUserId>,  IEquatable<TUserId>
 {
     public TUserId Id { get; set; }
 }
@@ -15,7 +15,7 @@ public abstract class BaseIDCUDEntity<TUserId> :
     ICreatableEntity<TUserId>,
     IUpdatableEntity<TUserId>,
     IDeletableEntity<TUserId>
-    where TUserId : struct, IComparable, IComparable<TUserId>, IConvertible, IEquatable<TUserId>
+    where TUserId : struct, IComparable, IComparable<TUserId>,  IEquatable<TUserId>
 {
     public DateTime CreatedAt { get; set; }
     public TUserId CreatedBy { get; set; }
@@ -49,7 +49,7 @@ public abstract class BaseCUDEntity<TUserId> :
     ICreatableEntity<TUserId>,
     IUpdatableEntity<TUserId>,
     IDeletableEntity<TUserId>
-    where TUserId : struct, IComparable, IComparable<TUserId>, IConvertible, IEquatable<TUserId>
+    where TUserId : struct, IComparable, IComparable<TUserId>,  IEquatable<TUserId>
 {
     public DateTime CreatedAt { get; set; }
     public TUserId CreatedBy { get; set; }

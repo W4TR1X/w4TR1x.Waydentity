@@ -1,10 +1,14 @@
 ﻿namespace w4TR1x.Waydentity.Entites;
 
-public class User<TUserId, TTenantId, TRoleId, TClaimId> : BaseIDCUDEntity<TUserId>
-    where TUserId : struct, IComparable, IComparable<TUserId>, IConvertible, IEquatable<TUserId>
-    where TTenantId : struct, IComparable, IComparable<TTenantId>, IConvertible, IEquatable<TTenantId>
-    where TRoleId : struct, IComparable, IComparable<TRoleId>, IConvertible, IEquatable<TRoleId>
-    where TClaimId : struct, IComparable, IComparable<TClaimId>, IConvertible, IEquatable<TClaimId>
+public abstract class User<TUser, TTenant, TRole, TClaim, TUserId, TTenantId, TRoleId, TClaimId> : BaseIDCUDEntity<TUserId>
+      where TUser : User<TUser, TTenant, TRole, TClaim, TUserId, TTenantId, TRoleId, TClaimId>, new()
+    where TTenant : Tenant<TUser, TTenant, TRole, TClaim, TUserId, TTenantId, TRoleId, TClaimId>, new()
+    where TRole : Role<TUser, TTenant, TRole, TClaim, TUserId, TTenantId, TRoleId, TClaimId>, new()
+    where TClaim : Claim<TUser, TTenant, TRole, TClaim, TUserId, TTenantId, TRoleId, TClaimId>, new()  
+    where TUserId : struct, IComparable, IComparable<TUserId>, IEquatable<TUserId>
+    where TTenantId : struct, IComparable, IComparable<TTenantId>,  IEquatable<TTenantId>
+    where TRoleId : struct, IComparable, IComparable<TRoleId>,  IEquatable<TRoleId>
+    where TClaimId : struct, IComparable, IComparable<TClaimId>, IEquatable<TClaimId>
 {
     public string FirstName { get; set; } = null!;
     public string LastName { get; set; } = null!;
@@ -15,7 +19,7 @@ public class User<TUserId, TTenantId, TRoleId, TClaimId> : BaseIDCUDEntity<TUser
     public Guid ConcurrencyStamp { get; set; }
     public TTenantId? TenantId { get; set; }
 
-    public virtual Tenant<TUserId, TTenantId, TRoleId, TClaimId>? Tenant { get; set; }
-    public virtual ICollection<UserClaim<TUserId, TTenantId, TRoleId, TClaimId>> UserClaims { get; set; } = null!;
-    public virtual ICollection<UserRole<TUserId, TTenantId, TRoleId, TClaimId>> UserRoles { get; set; } = null!;
+    public virtual TTenant? Tenant { get; set; }
+    public virtual ICollection<UserClaim<TUser, TTenant, TRole, TClaim, TUserId, TTenantId, TRoleId, TClaimId>> UserClaims { get; set; } = null!;
+    public virtual ICollection<UserRole<TUser, TTenant, TRole, TClaim, TUserId, TTenantId, TRoleId, TClaimId>> UserRoles { get; set; } = null!;
 }
